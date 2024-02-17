@@ -9,7 +9,7 @@ CORS(app, resources={"/epilepsy_check": {"origins": "*"}})
 @app.route('/epilepsy_check', methods= ['POST'])
 def epilepsy_check():
     try:
-        data = response.json
+        data = request.json
         yt_url = data.get('url')
     except Exception as e:
         print(str(e))
