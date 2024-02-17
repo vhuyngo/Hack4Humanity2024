@@ -6,7 +6,6 @@ stream = CamGear(source='https://youtu.be/dQw4w9WgXcQ', stream_mode = True, logg
 
 # infinite loop
 while True:
-    
     frame = stream.read()
     # read frames
 
