@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
-#import epilepsyTracker
+from tester.py import open_stream
 from flask_cors import CORS
+import time
 
 app = Flask(__name__)
 CORS(app, resources={"/epilepsy_check": {"origins": "*"}})
@@ -11,6 +12,8 @@ def epilepsy_check():
     try:
         data = request.json
         yt_url = data.get('url')
+        # open_stream(yt_url)
+        time.sleep(30)
     except Exception as e:
         print(str(e))
         return jsonify({'error': str(e)}), 500
