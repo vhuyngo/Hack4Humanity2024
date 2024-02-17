@@ -10,10 +10,13 @@ def detect_flashing_lights(frame):
 
     # If standard deviation is above a certain threshold, consider it as flashing lights
     # return std_dev > 30
-    return std_dev > 100
+    return std_dev > 110
 
 # Initialize video stream
-stream = CamGear(source='https://www.youtube.com/watch?v=QdMiVGKvtMQ', stream_mode=True, logging=True).start()
+# For the informational rick roll video
+# stream = CamGear(source='https://www.youtube.com/watch?v=QdMiVGKvtMQ', stream_mode=True, logging=True).start()
+# This is an extreme strobe light video
+stream = CamGear(source='https://www.youtube.com/watch?v=RaGnRaxIGLc', stream_mode=True, logging=True).start()
 
 # Infinite loop to read frames
 while True:

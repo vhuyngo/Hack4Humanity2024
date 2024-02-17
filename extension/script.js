@@ -1,4 +1,4 @@
-const apiEndpoint2 = 'http://172.20.215.140:5003/epilepsy_check';
+const apiEndpoint2 = 'http://172.20.209.75:5003/epilepsy_check';
 
 chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     // tabs is an array of tab objects
@@ -10,7 +10,25 @@ chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     // Now you can use currentTabUrl as needed
     document.getElementById("urlInput").value = currentTabUrl;
   
-  
+    chrome.storage.local.get(['timestampData'], function(result) {
+      if (result.timestampData) {
+          var response = document.getElementById("responseText");
+          
+          // Assuming result.timestampData is an object and you want to display it as a string
+          // If it's already a string or another format, adjust accordingly
+          response.textContent = JSON.stringify(result.timestampData, null, 2);
+          
+          // Optionally clear the stored data if you don't need it anymore
+          chrome.storage.local.remove(['timestampData'], function() {
+              console.log('Timestamp information was retrieved and cleared.');
+          });
+      } else {
+          // Handle the case where there is no data (e.g., it's the first time the popup is opened)
+          var response = document.getElementById("responseText");
+          response.textContent = "No data available.";
+      }
+  });
+
 });
   
 document.getElementById("openButton").addEventListener("click", function() {
