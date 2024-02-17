@@ -1,11 +1,11 @@
 body {
-    font: 100% / 1.5 Inconsolata, monospace;
-    color: hsl(230, 100%, 95%);
-    background-color: hsl(230, 40%, 10%);
-    font-weight: 300;
-    margin: 10px;
-    width: 500px;
-    /*border: 2px solid white; */
+  font: 100% / 1.5 Inconsolata, monospace;
+  color: hsl(230, 100%, 95%);
+  background-color: hsl(230, 40%, 10%);
+  font-weight: 300;
+  margin: 10px;
+  width: 500px;
+  /*border: 2px solid white; */
   }
 
 h1 {
@@ -13,23 +13,23 @@ h1 {
 }
 
 input {
-    width: 70%;
-    padding: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-  }
+  width: 70%;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
 
 button {
-    width:200px;
-    border: 1px solid #fff;
-    border-radius: 1em;
-    background-color: transparent;
-    font: 100% / 1.5 Inconsolata, monospace;
-    color: #ffffff;
-    padding: 0.25em .5em;
-    margin-bottom:10px;
-    }
+  width:200px;
+  border: 1px solid #fff;
+  border-radius: 1em;
+  background-color: transparent;
+  font: 100% / 1.5 Inconsolata, monospace;
+  color: #ffffff;
+  padding: 0.25em .5em;
+  margin-bottom:10px;
+}
 
 button:hover {
       cursor: pointer;
-    }
+}
