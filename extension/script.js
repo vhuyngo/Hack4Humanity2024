@@ -21,7 +21,7 @@ document.getElementById("openButton").addEventListener("click", function() {
 function openUrl() {
     var url = document.getElementById("urlInput").value;
     if (url) {
-        sendUrlEmbeded(url);  // api call to send url
+        sendUrlEmbedded(url);  // api call to send url
         saveUrl(url);
     }
 }
