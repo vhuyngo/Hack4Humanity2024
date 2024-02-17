@@ -13,7 +13,7 @@ def epilepsy_check():
         data = request.json
         yt_url = data.get('url')
         # open_stream(yt_url)
-        time.sleep(30)
+        time.sleep(5)
         print("sent")
     except Exception as e:
         print(str(e))

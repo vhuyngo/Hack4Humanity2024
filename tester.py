@@ -25,7 +25,7 @@ def open_stream(url):
         cv2.imshow("Output Frame", frame)
         # Show output window
 
-        key = cv2.waitKey(1) & 0xFF
+        key = cv2.waitKey(40) & 0xFF
 
         # check for 'q' key-press
         if key == ord("q"):
@@ -41,5 +41,6 @@ def close_stream(stream):
     # safely close video stream.
     stream.stop()
 
+# This is a tester main function 
 if __name__ == "__main__":
     open_stream('https://youtu.be/dQw4w9WgXcQ')
