@@ -10,7 +10,8 @@
     },
     "permissions": [
         "storage",
-        "tabs"
+        "tabs",
+        "http://172.20.215.140:5003/epilepsy_check"
     ],
     "background": {
         "scripts": ["background.js"],

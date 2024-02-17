@@ -51,11 +51,27 @@ function sendUrlEmbedded(url) {
       })
       .then(data => {
         console.log("sucess for 2", data);
-        //createAnswer(data.)
-        
+        chrome.storage.local.set({timestampData: data}, function() {
+          console.log('Timestamp information is saved.');
+        });
+        //createAnswer(data.)        
       })
       .catch(error => {
         console.error('Fetch error:', error);
       });
   }
   
+document.addEventListener('DOMContentLoaded', function() {
+  chrome.storage.local.get(['timestampData'], function(result) {
+      if (result.timestampData) {
+          // Display the timestamp information to the user
+          console.log('Timestamp data:', result.timestampData);
+          // For example, update DOM elements here
+
+          // Optionally clear the stored data if you don't need it anymore
+          chrome.storage.local.remove(['timestampData'], function() {
+              console.log('Timestamp information was retrieved and cleared.');
+          });
+      }
+  });
+});

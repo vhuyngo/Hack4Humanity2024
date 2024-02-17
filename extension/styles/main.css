@@ -33,3 +33,7 @@ button {
 button:hover {
       cursor: pointer;
 }
+
+.center {
+  text-align: center;
+}
