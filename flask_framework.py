@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app, resources={"/": {"origins": "*"}})
 
 
-@app.route('/epilepsy_check', methods= ['GET'])
+@app.route('/epilepsy_check', methods= ['POST'])
 def epilepsy_check():
     try:
         data = response.json

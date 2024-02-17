@@ -1,4 +1,4 @@
-const apiEndpoint2 = '';
+const apiEndpoint2 = 'http://172.20.215.140:5003/epilepsy_check';
 
 chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     // tabs is an array of tab objects

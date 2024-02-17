@@ -2,7 +2,7 @@
     "name": "Epilepsy Watch",
     "version": "1.0.0",
     "description": "Epilepsy Watch",
-    "manifest_version": 3,
+    "manifest_version": 2,
     "author": "us",
     "action": {
         "default_popup": "index.html",
