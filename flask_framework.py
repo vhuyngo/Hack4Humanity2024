@@ -14,6 +14,7 @@ def epilepsy_check():
         yt_url = data.get('url')
         # open_stream(yt_url)
         time.sleep(30)
+        print("sent")
     except Exception as e:
         print(str(e))
         return jsonify({'error': str(e)}), 500
