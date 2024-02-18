@@ -1,5 +1,7 @@
 const apiEndpoint2 = 'http://172.20.209.75:5003/epilepsy_check';
-const webEndpoint = 'ws://172.20.215.140:6789/';
+const webEndpoint = 'ws://172.20.209.75:6789/';
+
+const timeStamps = [];
 
 chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     // tabs is an array of tab objects
@@ -65,7 +67,7 @@ function sendUrlEmbedded(url) {
 */
 
 function sendUrlEmbedded(url) {
-  var ws = new WebSocket(webEndpoint);
+  var ws = new WebSocket("ws://172.20.209.75:6789");
 
   console.log(ws);
 
@@ -78,6 +80,14 @@ function sendUrlEmbedded(url) {
   ws.onmessage = function(evt) {
       // Receive and log messages from the server
       console.log("Message from server: " + evt.data);
+      var nHTML = "";
+      timeStamps.push(evt.data);
+      timeStamps.forEach(function(item) {
+        nHTML += '<li>' + item + '</li>';
+      });
+    
+      document.getElementById("responseText").innerHTML = '<ul>' + nHTML + '</ul>'
+    
   };
 
   // Optional: Handle any errors that occur

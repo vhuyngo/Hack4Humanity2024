@@ -2,8 +2,7 @@
 from pytube import YouTube 
 from vidgear.gears import CamGear
 import cv2
-
-global_list = []
+import time
 
 def detect_flashing_lights(prev_frame, frame, min_std_dev, max_std_dev):
     # Convert frame to grayscale for simplicity
@@ -13,49 +12,65 @@ def detect_flashing_lights(prev_frame, frame, min_std_dev, max_std_dev):
     # Compute the absolute difference between the frames
     difference = cv2.absdiff(prev_gray, gray)
     # print(difference) - matri
-    
 
     # Calculate the standard deviation of pixel intensities
     std_dev = cv2.meanStdDev(difference)[1][0][0]
-    print(std_dev)
-    # global_list.append(std_dev)
 
-    # If standard deviation is above a certain threshold, consider it as flashing lights
-    # return std_dev > 30
-    return min_std_dev <= std_dev <= max_std_dev
+    if min_std_dev <= std_dev <= max_std_dev:
+        return True, time.time()
+    else:
+        return False, None
 
 def open_stream(url):
     # rickroll
     # stream = CamGear(source='https://youtu.be/dQw4w9WgXcQ', stream_mode = True, logging=True).start() 
-    # informational vid abt epilepsy for testing
-    # stream = CamGear(source='https://www.youtube.com/watch?v=QdMiVGKvtMQ', stream_mode = True, logging=True).start() # YouTube Video URL as input
     stream = CamGear(source=url, stream_mode = True, logging=True).start() 
-    print(type(stream))
+    # print(type(stream))
 
-    delay = (int) (get_frame_rate(url))
-    print(delay)
+    # get frame rate for delay
+    frame_rate = (int) (get_frame_rate(url))
+    print(frame_rate)
 
+    # get previous frame for comparison, start as none
     prev_frame = None
 
+    # define range for standard dev of flashing lights
     minimum_standard_deviation = 8
     maximum_standard_deviation = 10
 
+    # Flags and variables for flashing lights detection
+    flashing_lights_detected = False
+    flashing_lights_start_time = None
+    flashing_lights_end_time = None
+
+    start_time = time.time()
     # infinite loop
     while True:
-        frame = stream.read()
         # read frames
+        frame = stream.read()
 
-        # check if frame is None
+        # check if frame is None and break
         if frame is None:
-            #if True break the infinite loop
             break
         
         # do something with frame here
         #     if detect_flashing_lights(prev_frame, frame):
         #         print("Flashing lights detected!")
         if prev_frame is not None:
-            if detect_flashing_lights(prev_frame, frame, minimum_standard_deviation, maximum_standard_deviation):
-                print("Flashing lights detected!")
+            # if detect_flashing_lights(prev_frame, frame, minimum_standard_deviation, maximum_standard_deviation):
+            #     print("Flashing lights detected!")
+            detected, timestamp = detect_flashing_lights(prev_frame, frame, minimum_standard_deviation, maximum_standard_deviation)
+            if detected:
+                if not flashing_lights_detected:
+                    flashing_lights_detected = True
+                    flashing_lights_start_time = time.time()
+            elif flashing_lights_detected:
+                flashing_lights_detected = False
+                flashing_lights_end_time = time.time()
+                # We can use these variables
+                # start_time_display = flashing_lights_start_time - start_time
+                # end_time_display = flashing_lights_end_time - start_time
+                print(f"Flashing lights event duration: {flashing_lights_start_time - start_time} - {flashing_lights_end_time - start_time}")
 
         # update the previous frame
         # TODO: Might have to change prev_frame
@@ -65,12 +80,17 @@ def open_stream(url):
         # Show output window
         
         # key = cv2.waitKey(delay) & 0xFF
-        key = cv2.waitKey(delay) & 0xFF
+        key = cv2.waitKey(frame_rate) & 0xFF
 
         # check for 'q' key-press
         if key == ord("q"):
             #if 'q' key-pressed break out
             close_stream(stream)
+    
+    if flashing_lights_detected:
+        flashing_lights_end_time = time.time()
+        video_time = get_video_time(flashing_lights_start_time, frame_rate) + " - " + get_video_time(flashing_lights_end_time, frame_rate)
+        print("Flashing lights event duration:", video_time)
 
     return stream
 
@@ -105,7 +125,5 @@ if __name__ == "__main__":
     open_stream("https://www.youtube.com/watch?v=ZQfy2i4bpCA")
     # Red and blue strobe 
     #open_stream("https://www.youtube.com/watch?v=sCe58cZ2_tA")
-
     
-    #open_stream("https://www.youtube.com/watch?v=QWZf80G74S0")
     
