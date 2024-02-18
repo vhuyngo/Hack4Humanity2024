@@ -83,7 +83,7 @@ async def open_stream(url, websocket):
                 else:
                     video_time = f"{start_time_display} - {end_time_display}"
                     print(f"Flashing Light Duration: {flashing_lights_start_time - start_time} - {flashing_lights_end_time - start_time}")
-                list_video_times.append(video_time)
+                list_video_times.append("\n" + video_time)
                 await websocket.send(list_video_times)
 
         # update the previous frame
