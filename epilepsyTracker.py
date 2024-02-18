@@ -75,7 +75,21 @@ async def open_stream(url, websocket):
                 start_time_display = round(flashing_lights_start_time - start_time, 1)
                 end_time_display = round(flashing_lights_end_time - start_time, 1)
                 
-                
+                curr = [start_time_display, start_time_display]
+                print(curr)
+                if len(list_video_times) <= 0:
+                    list_video_times.append(curr)
+                else:
+                    relevant_tuple = list_video_times[-1]
+                    a = relevant_tuple[1]
+                    int(a)
+                    if a+1.35 >= curr[1]:
+                        curr[0] = relevant_tuple[0]
+                        list_video_times.pop()
+                    list_video_times.append(curr)
+                #convert the list to a json string
+                list_video = json.dumps(list_video_times)
+                await websocket.send(list_video)
 
                 # singular time
                 if abs(start_time_display - end_time_display) <= 1:
