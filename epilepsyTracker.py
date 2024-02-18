@@ -57,9 +57,6 @@ async def open_stream(url, websocket):
         if frame is None:
             break
         
-        # do something with frame here
-        #     if detect_flashing_lights(prev_frame, frame):
-        #         print("Flashing lights detected!")
         if prev_frame is not None:
             # if detect_flashing_lights(prev_frame, frame, minimum_standard_deviation, maximum_standard_deviation):
             #     print("Flashing lights detected!")
@@ -83,11 +80,11 @@ async def open_stream(url, websocket):
                     relevant_tuple = list_video_times[-1]
                     a = relevant_tuple[1]
                     int(a)
-                    if a+1.35 >= curr[1]:
+                    if a + 1.35 >= curr[1]:
                         curr[0] = relevant_tuple[0]
                         list_video_times.pop()
                     list_video_times.append(curr)
-                #convert the list to a json string
+                # convert the list to a json string
                 list_video = json.dumps(list_video_times)
                 await websocket.send(list_video)
 
@@ -151,5 +148,4 @@ def close_stream(stream):
 #     open_stream("https://www.youtube.com/watch?v=ZQfy2i4bpCA")
 #     # Red and blue strobe 
 #     #open_stream("https://www.youtube.com/watch?v=sCe58cZ2_tA")
-    
-    
+

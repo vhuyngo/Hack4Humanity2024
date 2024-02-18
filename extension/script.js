@@ -1,5 +1,5 @@
 const apiEndpoint2 = 'http://172.20.209.75:5003/epilepsy_check';
-const webEndpoint = 'ws://172.20.209.75:6789/';
+const webEndpoint = 'ws://172.20.215.140:6789/';
 
 const timeStamps = [];
 
@@ -67,7 +67,7 @@ function sendUrlEmbedded(url) {
 */
 
 function sendUrlEmbedded(url) {
-  var ws = new WebSocket("ws://172.20.209.75:6789");
+  var ws = new WebSocket("ws://172.20.215.140:6789/");
 
   console.log(ws);
 
@@ -78,14 +78,46 @@ function sendUrlEmbedded(url) {
   };
 
   ws.onmessage = function(evt) {
+      timeStamps.length = 0;
+
       // Receive and log messages from the server
       console.log("Message from server: " + evt.data);
+
+      const arrayOfArrays = JSON.parse(evt.data);
+
+      console.log(arrayOfArrays);
+            
+      for (i = 0; i < arrayOfArrays.length ; i++) {
+        if (arrayOfArrays[i][0] == arrayOfArrays[i][1]) {
+          timeStamps.push(arrayOfArrays[i][0]);
+          continue;
+        }
+        timeStamps.push(arrayOfArrays[i]);
+      }
+
       var nHTML = "";
-      timeStamps.push(evt.data);
+      //timeStamps.push(evt.data);
+      //timeStamps.forEach(function(item) {
+      // nHTML += '<li>' + item + '</li>';
+      //});
+
       timeStamps.forEach(function(item) {
-        nHTML += '<li>' + item + '</li>';
-      });
-    
+        nHTML += '[' + item + '] ';
+       });
+
+    /*
+
+    for each element in evt.data:
+      if element[0] == element[1]:
+        print(element[1]\n)
+      else:
+        print(element[0], element[1]\n)
+
+    */
+
+
+      //document.getElementById("responseText").innerHTML = evt.data;
+
       document.getElementById("responseText").innerHTML = '<ul>' + nHTML + '</ul>'
     
   };
@@ -98,15 +130,16 @@ function sendUrlEmbedded(url) {
 }
 
 
-document.getElementById('skipForwardButton').addEventListener('click', function() {
-  sendMessageToContentScript({ action: 'skipForwardVideo', duration: 10 }); // Adjust the duration as needed
-});
+/*
+L = [];
+curr = [x, x];
 
-if (request.action === 'skipForwardVideo') {
-  var player = document.querySelector('video'); // Adjust the selector based on YouTube's current structure
-  if (player) {
-    // Adjust the duration to skip forward by (in seconds)
-    var durationToSkip = request.duration || 10;
-    player.currentTime += durationToSkip;
-  }
-}
+for i in L[::-1]:
+  if i[1] + 1 > curr[1]:
+      curr[0] = L[i]
+      del i
+  else:
+      break;
+
+L.append(curr)
+*/
