@@ -19,8 +19,16 @@
     </div>
   </form>
 
-  <div id="responseText">Waiting for data...</div>
-
+  <div id="responseText"></div>  // python will call
+  <script>
+    // endpoint has to match python flask_framework.py
+    fetch('/epilepsy_check')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('responseText').innerText = JSON.stringify(data, null, 2); // adjust text
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
   <script src="script.js"></script>
 
 </body>

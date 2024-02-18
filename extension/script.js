@@ -10,25 +10,6 @@ chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     // Now you can use currentTabUrl as needed
     document.getElementById("urlInput").value = currentTabUrl;
   
-    chrome.storage.local.get(['timestampData'], function(result) {
-      if (result.timestampData) {
-          var response = document.getElementById("responseText");
-          
-          // Assuming result.timestampData is an object and you want to display it as a string
-          // If it's already a string or another format, adjust accordingly
-          response.textContent = JSON.stringify(result.timestampData, null, 2);
-          
-          // Optionally clear the stored data if you don't need it anymore
-          chrome.storage.local.remove(['timestampData'], function() {
-              console.log('Timestamp information was retrieved and cleared.');
-          });
-      } else {
-          // Handle the case where there is no data (e.g., it's the first time the popup is opened)
-          var response = document.getElementById("responseText");
-          response.textContent = "No data available.";
-      }
-  });
-
 });
   
 document.getElementById("openButton").addEventListener("click", function() {
@@ -69,29 +50,12 @@ function sendUrlEmbedded(url) {
     })
     .then(data => {
       console.log("sucess for 2", data);
-      chrome.storage.local.set({timestampData: data}, function() {
-        console.log('Timestamp information is saved.');
-      });
-      var response = document.getElementById("responseText");
-      response.textContent = data;           
+
+      //var response = document.getElementById("responseText");
+      //response.textContent = data;      
+            
     })
     .catch(error => {
       console.error('Fetch error:', error);
     });
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-  chrome.storage.local.get(['timestampData'], function(result) {
-      if (result.timestampData) {
-          // Display the timestamp information to the user
-          console.log('Timestamp data:', result.timestampData);
-          // For example, update DOM elements here
-
-          // Optionally clear the stored data if you don't need it anymore
-          //chrome.storage.local.remove(['timestampData'], function() {
-          //    console.log('Timestamp information was retrieved and cleared.');
-          //});
-      }
-  });
-});
-
