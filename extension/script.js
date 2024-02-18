@@ -1,4 +1,5 @@
 const apiEndpoint2 = 'http://172.20.209.75:5003/epilepsy_check';
+const webEndpoint = "ws://localhost:6789";
 
 chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     // tabs is an array of tab objects
@@ -30,6 +31,7 @@ function saveUrl(url) {
     console.log("URL saved:", url);
 }
 
+/*
 // send embedded url
 function sendUrlEmbedded(url) {
   const fullApiUrl = `${apiEndpoint2}`;
@@ -51,11 +53,34 @@ function sendUrlEmbedded(url) {
     .then(data => {
       console.log("sucess for 2", data);
 
-      //var response = document.getElementById("responseText");
-      //response.textContent = data;      
-            
+      var response = document.getElementById("responseText");
+      response.textContent = data;       
+      // append to array
+
     })
     .catch(error => {
       console.error('Fetch error:', error);
     });
+}
+*/
+
+function sendUrlEmbedded(url) {
+  var ws = new WebSocket(webEndpoint);
+
+  ws.onopen = function() {
+      // Websocket is connected, send a message
+      console.log("Connected to the server");
+      ws.send(url);
+  };
+
+  ws.onmessage = function(evt) {
+      // Receive and log messages from the server
+      console.log("Message from server: " + evt.data);
+  };
+
+  // Optional: Handle any errors that occur
+  ws.onerror = function(error) {
+      console.log("WebSocket error: " + error.message);
+  };
+
 }
