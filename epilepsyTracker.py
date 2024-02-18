@@ -75,12 +75,15 @@ async def open_stream(url, websocket):
                 start_time_display = round(flashing_lights_start_time - start_time, 1)
                 end_time_display = round(flashing_lights_end_time - start_time, 1)
                 
+                
+
                 # singular time
                 if abs(start_time_display - end_time_display) <= 1:
                     video_time = f"{start_time_display}"
                     print(f"Flashing Light: {start_time_display}")
                 # range of times
                 else:
+                    # video_time = (f"{start_time_display} - {end_time_display}")
                     video_time = f"{start_time_display} - {end_time_display}"
                     print(f"Flashing Light Duration: {flashing_lights_start_time - start_time} - {flashing_lights_end_time - start_time}")
                 list_video_times.append("\n" + video_time)
