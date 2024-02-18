@@ -47,6 +47,7 @@ async def open_stream(url, websocket):
     flashing_lights_end_time = None
 
     start_time = time.time()
+    list_video_times = []
     # infinite loop
     while True:
         # read frames
@@ -73,13 +74,17 @@ async def open_stream(url, websocket):
                 # We can use these variables
                 start_time_display = round(flashing_lights_start_time - start_time, 1)
                 end_time_display = round(flashing_lights_end_time - start_time, 1)
-                if start_time_display == end_time_display:
+                
+                # singular time
+                if abs(start_time_display - end_time_display) <= 1:
                     video_time = f"{start_time_display}"
                     print(f"Flashing Light: {start_time_display}")
+                # range of times
                 else:
                     video_time = f"{start_time_display} - {end_time_display}"
                     print(f"Flashing Light Duration: {flashing_lights_start_time - start_time} - {flashing_lights_end_time - start_time}")
-                await websocket.send(video_time)
+                list_video_times.append(video_time)
+                await websocket.send(list_video_times)
 
         # update the previous frame
         # TODO: Might have to change prev_frame
