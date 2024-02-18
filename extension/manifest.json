@@ -12,7 +12,8 @@
         "storage",
         "tabs",
         "http://172.20.209.75:5003/epilepsy_check",
-        "ws://192.168.64.1:6789/"
+        "ws://192.168.64.1:6789/",
+        "notifications"
     ],
     "background": {
         "scripts": ["background.js"],

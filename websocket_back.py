@@ -11,8 +11,7 @@ async def echo(websocket, path):
         print(data)
         response = json.dumps({"status": "Received"})
         await websocket.send(response)
-        open_stream(data, websocket)
-    #await websocket.send(response)
+        await open_stream(data, websocket)
 # client_ip = websockets.getspeername()
 
 start_server = websockets.serve(echo, "172.20.209.75", 6789)

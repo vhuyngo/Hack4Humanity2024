@@ -22,7 +22,7 @@ def detect_flashing_lights(prev_frame, frame, min_std_dev, max_std_dev):
         return False, None
 
 # def open_stream(url, websocket):
-def open_stream(url, websocket):
+async def open_stream(url, websocket):
     # rickroll
     # stream = CamGear(source='https://youtu.be/dQw4w9WgXcQ', stream_mode = True, logging=True).start() 
     print("It is reaching right before the camgear")
@@ -71,11 +71,15 @@ def open_stream(url, websocket):
                 flashing_lights_detected = False
                 flashing_lights_end_time = time.time()
                 # We can use these variables
-                # start_time_display = flashing_lights_start_time - start_time
-                # end_time_display = flashing_lights_end_time - start_time
-                video_time = f"Flashing lights event duration: {flashing_lights_start_time - start_time} - {flashing_lights_end_time - start_time}"
-                websocket.send(video_time)
-                print(f"Flashing lights event duration: {flashing_lights_start_time - start_time} - {flashing_lights_end_time - start_time}")
+                start_time_display = round(flashing_lights_start_time - start_time, 1)
+                end_time_display = round(flashing_lights_end_time - start_time, 1)
+                if start_time_display == end_time_display:
+                    video_time = f"{start_time_display}"
+                    print(f"Flashing Light: {start_time_display}")
+                else:
+                    video_time = f"{start_time_display} - {end_time_display}"
+                    print(f"Flashing Light Duration: {flashing_lights_start_time - start_time} - {flashing_lights_end_time - start_time}")
+                await websocket.send(video_time)
 
         # update the previous frame
         # TODO: Might have to change prev_frame
@@ -93,13 +97,6 @@ def open_stream(url, websocket):
             close_stream(stream)
     return stream
 
-def close_stream(stream):
-    cv2.destroyAllWindows()
-    # close output window
-
-    # safely close video stream.
-    stream.stop()
-
 def get_frame_rate(video_url):
     try:
         # Create a YouTube object
@@ -114,7 +111,15 @@ def get_frame_rate(video_url):
 
     except Exception as e:
         print("Error:", str(e))
-        
+    
+def close_stream(stream):
+    cv2.destroyAllWindows()
+    # close output window
+
+    # safely close video stream.
+    stream.stop()
+
+    
 # # This is a tester main function 
 # if __name__ == "__main__":
 #     # open_stream('https://youtu.be/dQw4w9WgXcQ')

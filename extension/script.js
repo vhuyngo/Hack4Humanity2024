@@ -96,3 +96,17 @@ function sendUrlEmbedded(url) {
   };
 
 }
+
+
+document.getElementById('skipForwardButton').addEventListener('click', function() {
+  sendMessageToContentScript({ action: 'skipForwardVideo', duration: 10 }); // Adjust the duration as needed
+});
+
+if (request.action === 'skipForwardVideo') {
+  var player = document.querySelector('video'); // Adjust the selector based on YouTube's current structure
+  if (player) {
+    // Adjust the duration to skip forward by (in seconds)
+    var durationToSkip = request.duration || 10;
+    player.currentTime += durationToSkip;
+  }
+}
