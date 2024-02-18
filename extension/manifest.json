@@ -11,7 +11,8 @@
     "permissions": [
         "storage",
         "tabs",
-        "http://172.20.209.75:5003/epilepsy_check"
+        "http://172.20.209.75:5003/epilepsy_check",
+        "ws://192.168.64.1:6789/"
     ],
     "background": {
         "scripts": ["background.js"],

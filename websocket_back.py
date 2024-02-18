@@ -10,7 +10,7 @@ async def echo(websocket, path):
 
 # client_ip = websockets.getspeername()
 
-start_server = websockets.serve(echo, "192.168.64.1", 6789)
+start_server = websockets.serve(echo, "0.0.0.0", 6789)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
