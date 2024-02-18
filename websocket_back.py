@@ -1,19 +1,14 @@
 import asyncio
 import websockets
 
-async def handler(websocket, path):
-    # Loop to keep the connection open and handle messages from the client.
+async def echo(websocket, path):
     async for message in websocket:
-        print(f"Received message from client: {message}")
-        # Send a response back to the client.
-        await websocket.send("Message received")
-        # Example: Sending multiple responses back to the client.
-        await asyncio.sleep(1)  # Simulate some processing time.
-        await websocket.send("Processing data")
-        await asyncio.sleep(1)  # Simulate more processing time.
-        await websocket.send("Data processed")
+        data = json.loads(message)
+        print("received data:", data)
+        response = json.dumps({"status": "Received"})
+        await websocket.send(response)
 
-start_server = websockets.serve(handler, "localhost", 6789)
+start_server = websockets.serve(echo, "localhost", 6789)
 
-asyncio.get_event_loop().run(start_server)
-# asyncio.get_event_loop().run_forever()
+asyncio.get_event_loop().run_until_complete(start_server)
+asyncio.get_event_loop().run_forever()
